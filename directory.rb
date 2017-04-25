@@ -23,20 +23,15 @@ def print_header
   puts "-------------"
 end
 
-def first(students)
-  students.collect do |student|
-    name = student[:name]
-    if name[0] == "D"
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
-    end
-  end
-end
 
 
 def print(students)
-  students.each_with_index do |student, index|
+  students.each_with_index.collect do |student, index|
+    name = student[:name]
+      if name.length < 12
     puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
   end
+end
 end
 
 
@@ -45,7 +40,7 @@ def print_footer(names)
 end
 # nothing happens until we call the methods
 students = input_students
-first(students)
+
 print_header
 print(students)
 print_footer(students)
