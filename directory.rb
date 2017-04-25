@@ -26,10 +26,12 @@ end
 
 
 def print(students)
-  students.each_with_index.collect do |student, index|
-    name = student[:name]
-      if name.length < 12
-    puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+  count = 1
+  until count > students.count
+    students.each_with_index.collect do |student, index|
+      name = student[:name]
+      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+      count += 1
   end
 end
 end
