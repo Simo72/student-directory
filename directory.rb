@@ -31,6 +31,23 @@ def input_students
   students
 end
 
+def print_by_cohort(students, cohort)
+    names = []
+    students.map do |student|
+        if student[:cohort] == cohort
+            names << student[:name]
+        end
+    end
+    puts "The students in #{cohort.capitalize} cohort are: "
+    if names == []
+      puts "Currently no students in #{cohort.capitalize} cohort"
+    else
+      names.each_index { |i| puts "#{i+1}. #{names[i]}" }
+    end
+end
+
+
+
 # and print them
 def print_header
   puts "The students of Villains Academy".center(75)
@@ -43,7 +60,6 @@ def print(students)
   count = 1
   until count > students.count
     students.each_with_index.collect do |student, index|
-      name = student[:name]
       puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort) - loves to eat #{student[:food]}".center(75)
       count += 1
   end
@@ -61,3 +77,6 @@ students = input_students
 print_header
 print(students)
 print_footer(students)
+print_by_cohort(students, "May")
+#by_cohort(students)
+p students
