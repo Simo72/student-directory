@@ -4,7 +4,7 @@ def input_students
   # create an empty array
   students = []
   #get the first names
-  name = gets.chomp.capitalize
+  name = gets.chop.capitalize
   # while the name is not empty, repeat this code
   while !name.empty? do
     months = ["January", "February", "March",
@@ -13,16 +13,16 @@ def input_students
               "October", "November", "December"
     ]
     puts "What cohort?"
-    cohort = gets.chomp.capitalize
+    cohort = gets.chop.capitalize
       if months.include? (cohort)
         puts "Favourite meal?"
-        meal = gets.chomp.downcase
+        meal = gets.chop.downcase
         # add the student hash to the array
         students << {name: name, cohort: cohort, food: meal}
         puts "Now we have #{students.count} students"
         #get another name from the user
         puts "New name?"
-        name = gets.chomp.capitalize
+        name = gets.chop.capitalize
       else
         puts "Cohort not found, please re_enter."
       end
@@ -73,7 +73,7 @@ def print_footer(names)
     puts "Overall, we have #{names.count} great students".center(75)
   else
     puts "Overall, we have #{names.count} great student".center(75)
-  end 
+  end
 end
 # nothing happens until we call the methods
 students = input_students
