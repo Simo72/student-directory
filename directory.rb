@@ -12,6 +12,8 @@ def process(selection)
       input_students
     when "2"
       show_students
+    when "3"
+      save_students
     when "9"
       exit
     else
@@ -22,6 +24,7 @@ def process(selection)
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
 
@@ -31,7 +34,17 @@ def show_students
   print_footer
 end
 
-
+def save_students
+  # open the file for writing ( r read, w write, w+ read & write, a+ to append)
+  file = File.open("students.csv", "w")
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end
 
 
 
@@ -50,10 +63,8 @@ def input_students
     puts "What cohort?"
     cohort = gets.chop.capitalize
       if months.include? (cohort)
-        puts "Favourite meal?"
-        meal = gets.chop.downcase
         # add the student hash to the array
-        @students << {name: name, cohort: cohort, food: meal}
+        @students << {name: name, cohort: cohort}
         puts "Now we have #{@students.count} students"
         #get another name from the user
         puts "New name?"
@@ -98,7 +109,7 @@ def print_students_list
 #  else
   until count > @students.count
     @students.each_with_index.collect do |student, index|
-      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort) - loves to eat #{student[:food]}".center(75)
+      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)}".center(75)
       count += 1
   end
 #end
