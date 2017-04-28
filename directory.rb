@@ -58,11 +58,15 @@ end
 
 def print(students)
   count = 1
+  if count <= 1
+    puts "NO STUDENTS!".center(75)
+  else
   until count > students.count
     students.each_with_index.collect do |student, index|
       puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort) - loves to eat #{student[:food]}".center(75)
       count += 1
   end
+end
 end
 end
 
