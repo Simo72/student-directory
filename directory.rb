@@ -39,8 +39,10 @@ def show_students
 end
 
 def save_students
+  puts "Please input filename?"
+  save_file = gets.chomp
   # open the file for writing ( r read, w write, w+ read & write, a+ to append)
-  file = File.open("students_test.csv", "w")
+  file = File.open(save_file, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -55,8 +57,10 @@ def student_to_hash
 end
 
 
-def load_students(filename = "students_test.csv")
-  file = File.open(filename, "r")
+def load_students
+  puts "Please enter filename."
+  file_load = gets.chomp
+  file = File.open(file_load, "r")
   file.readlines.each do |line|
     @name, @cohort = line.chomp.split(',')
       student_to_hash
