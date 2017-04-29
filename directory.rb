@@ -1,8 +1,17 @@
 @students = []
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
+  puts "9. Exit"
+end
+
 def interactive_menu
   loop do
   print_menu
-  process(gets.chomp)
+  process(STDIN.gets.chomp)
   end
 end
 
@@ -23,14 +32,6 @@ def process(selection)
     end
   end
 
-def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit"
-end
-
 def show_students
   print_header
   print_students_list
@@ -49,8 +50,8 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
       @students << {name: name, cohort: cohort.to_sym}
@@ -58,11 +59,23 @@ def load_students
     file.close
   end
 
+  def try_load_students
+    filename = ARGV.first #first argument from command line
+    return if filename.nil? #get out of the method if it isn't given
+    if File.exists?(filename)
+      load_students(filename)
+        puts "Loaded #{@students.count} students from #{filename}"
+    else #if it doesn't exists
+      puts "Sorry, #{filename} doesn't exist."
+      exit #quit the program
+    end
+  end
+
 def input_students
   puts "Please enter the name of the students"
   puts "Press enter to return to menu"
   #get the first names
-  name = gets.chop.capitalize
+  name = STDIN.gets.chop.capitalize
   # while the name is not empty, repeat this code
   while !name.empty? do
     months = ["January", "February", "March",
@@ -71,14 +84,14 @@ def input_students
               "October", "November", "December"
     ]
     puts "What cohort?"
-    cohort = gets.chop.capitalize
+    cohort = STDIN.gets.chop.capitalize
       if months.include? (cohort)
         # add the student hash to the array
         @students << {name: name, cohort: cohort}
         puts "Now we have #{@students.count} students"
         #get another name from the user
         puts "New name?"
-        name = gets.chop
+        name = STDIN.gets.chop
       else
         puts "Cohort not found, please re_enter."
       end
@@ -136,7 +149,7 @@ def print_footer
   end
 end
 # nothing happens until we call the methods
-
+load_students
 interactive_menu
 # print_by_cohort(students, "May")
 # p students
