@@ -20,16 +20,13 @@ end
 
 def process(selection)
   case selection
-    when "1"
-      input_students
-    when "2"
-      show_students
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9"
-      exit
+    when "1"  then input_students
+    when "2"  then show_students
+    when "3"  then save_students
+      puts "**NEW STUDENTS SAVED**".center(75)
+    when "4"  then load_students
+      puts "**STUDENTS UPLOADED**".center(75)
+    when "9"  then exit
     else
       puts "I don't know what you mean, try again"
     end
@@ -43,7 +40,7 @@ end
 
 def save_students
   # open the file for writing ( r read, w write, w+ read & write, a+ to append)
-  file = File.open("students.csv", "w")
+  file = File.open("students_test.csv", "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -57,7 +54,8 @@ def student_to_hash
   @students << {name: @name, cohort: @cohort}
 end
 
-def load_students(filename = "students.csv")
+
+def load_students(filename = "students_test.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     @name, @cohort = line.chomp.split(',')
@@ -66,17 +64,18 @@ def load_students(filename = "students.csv")
     file.close
   end
 
-  def try_load_students
-    filename = ARGV.first #first argument from command line
-    return if filename.nil? #get out of the method if it isn't given
-    if File.exists?(filename)
-      load_students(filename)
-        puts "Loaded #{@students.count} students from #{filename}"
-    else #if it doesn't exists
-      puts "Sorry, #{filename} doesn't exist."
-      exit #quit the program
-    end
-  end
+# CALL load_students AND NO NEED FOR BELOW METHOD
+#  def first_load_students
+#    filename = ARGV.first #first argument from command line
+#    return if filename.nil? #get out of the method if it isn't given
+#    if File.exists?(filename)
+#      load_students(filename)
+#        puts "Loaded #{@students.count} students from #{filename}"
+#    else #if it doesn't exists
+#      puts "Sorry, #{filename} doesn't exist."
+#      exit #quit the program
+#    end
+#  end
 
 def input_students
   puts "Please enter the name of the students"
@@ -118,16 +117,12 @@ end
 
 def print_students_list
   count = 1
-#  if count <= 1
-#    puts "NO STUDENTS!".center(75)
-#  else
   until count > @students.count
     @students.each_with_index.collect do |student, index|
       puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)".center(75)
       count += 1
+    end
   end
-#end
-end
 end
 
 
