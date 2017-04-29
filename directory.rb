@@ -1,4 +1,7 @@
 @students = []
+@name = ""
+@cohort = ""
+
 
 def print_menu
   puts "1. Input the students"
@@ -50,11 +53,15 @@ def save_students
   file.close
 end
 
+def student_to_hash
+  @students << {name: @name, cohort: @cohort}
+end
+
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym}
+    @name, @cohort = line.chomp.split(',')
+      student_to_hash
     end
     file.close
   end
@@ -75,23 +82,23 @@ def input_students
   puts "Please enter the name of the students"
   puts "Press enter to return to menu"
   #get the first names
-  name = STDIN.gets.chop.capitalize
+  @name = STDIN.gets.chop
   # while the name is not empty, repeat this code
-  while !name.empty? do
+  while !@name.empty? do
     months = ["January", "February", "March",
               "April", "May", "June",
               "July", "August", "September",
               "October", "November", "December"
     ]
     puts "What cohort?"
-    cohort = STDIN.gets.chop.capitalize
-      if months.include? (cohort)
+    @cohort = STDIN.gets.chop.capitalize
+      if months.include? (@cohort)
         # add the student hash to the array
-        @students << {name: name, cohort: cohort}
+        student_to_hash
         puts "Now we have #{@students.count} students"
         #get another name from the user
         puts "New name?"
-        name = STDIN.gets.chop
+        @name = STDIN.gets.chop
       else
         puts "Cohort not found, please re_enter."
       end
@@ -99,22 +106,6 @@ def input_students
   # return the array of students
   #students
 end
-
-#def print_by_cohort(students, cohort)
-#    names = []
-#    students.map do |student|
-#        if student[:cohort] == cohort
-#            names << student[:name]
-#        end
-#    end
-#    puts "The students in #{cohort.capitalize} cohort are: "
-#    if names == []
-#      puts "Currently no students in #{cohort.capitalize} cohort"
-#    else
-#      names.each_index { |i| puts "#{i+1}. #{names[i]}" }
-#    end
-#end
-
 
 
 # and print them
@@ -132,7 +123,7 @@ def print_students_list
 #  else
   until count > @students.count
     @students.each_with_index.collect do |student, index|
-      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)}".center(75)
+      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)".center(75)
       count += 1
   end
 #end
@@ -151,5 +142,3 @@ end
 # nothing happens until we call the methods
 load_students
 interactive_menu
-# print_by_cohort(students, "May")
-# p students
