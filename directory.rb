@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 @name = ""
 @cohort = ""
@@ -42,12 +43,10 @@ def save_students
   puts "Please input filename?"
   save_file = gets.chomp
   # open the file for writing ( r read, w write, w+ read & write, a+ to append)
-  file = File.open(save_file, "w") do |file|
+  CSV.open(save_file, "w") do |file|
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    file <<  [student[:name], student[:cohort]]
     end
   end
 end
@@ -60,13 +59,11 @@ end
 def load_students
   puts "Please enter filename."
   file_load = gets.chomp
-  file = File.open(file_load, "r") do |file|
-  file.readlines.each do |line|
-    @name, @cohort = line.chomp.split(',')
+  CSV.foreach(file_load, "r") do |line|
+    @name, @cohort = line
       student_to_hash
-      end
     end
-  end
+end
 
 # CALL load_students AND NO NEED FOR BELOW METHOD
 #  def first_load_students
